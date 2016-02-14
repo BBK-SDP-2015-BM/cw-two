@@ -1,23 +1,31 @@
 package game;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Basil on 14/02/2016.
  */
 public class CodeImpl implements Code {
 
-    private int codeLength;
-    private Set validCharacters;
+    List<Peg> pegs = new ArrayList<>();
 
     public CodeImpl() {
 
     }
 
-    public CodeImpl(int codeLength) {
-        this.codeLength = codeLength;
+
+
+    @Override
+    public void addPeg(Peg peg) {
+        pegs.add(peg);
     }
 
+    @Override
+    public String toString(){
 
-
+        StringBuilder sb = new StringBuilder();
+        pegs.forEach(p -> sb.append(p.toString()));
+        return sb.toString();
+    }
 }

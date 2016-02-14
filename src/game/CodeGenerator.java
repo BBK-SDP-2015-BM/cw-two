@@ -7,32 +7,23 @@ import java.util.List;
  *
  * CodeGenerator class randomly generates a code of given length using a valid character set
  */
-abstract class CodeGenerator {
+public abstract class CodeGenerator {
 
     protected Code theCode;
-    private int length;
-    private List<PegType> pegs;
+    protected int length;
+    protected List<PegType> pegs;
 
     public CodeGenerator(int length, List<PegType> pegs){
         this.length = length;
         this.pegs = pegs;
-        setCode();
     }
+
+    protected CodeGenerator(){};
 
     public Code getCode(){
         return theCode;
     }
 
-    private void setCode() {
 
-        for (int i = 0; i < length; i++) {
-
-            int pick = (int) (Math.random() * pegs.size());
-
-            theCode.addPeg(new PegCharacterImpl(pegs.get(pick)));
-
-        }
-
-    }
 
 }
