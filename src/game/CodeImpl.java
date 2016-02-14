@@ -22,6 +22,11 @@ public class CodeImpl implements Code {
     }
 
     @Override
+    public boolean equals(String codeString) {
+        return false;
+    }
+
+    @Override
     public String toString(){
 
         StringBuilder sb = new StringBuilder();

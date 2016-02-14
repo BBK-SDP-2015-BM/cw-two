@@ -10,4 +10,6 @@ public interface Code {
 
     void addPeg(Peg peg);
 
+    boolean equals(String codeString);
+
 }
