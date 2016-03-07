@@ -1,4 +1,4 @@
-package game;
+package pegs;
 
 /**
  * Created by Basil on 14/02/2016.
@@ -6,11 +6,7 @@ package game;
 public abstract class Peg {
 	protected String colour;
 	
-	Peg(String colour){
-		this.colour = colour;
-	}
-	
-	char getCode(){
+	public char getCode(){
     	return colour.charAt(0); 
     }
 }

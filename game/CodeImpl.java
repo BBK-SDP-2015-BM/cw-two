@@ -1,29 +1,39 @@
 package game;
 
-import java.util.Set;
+import java.util.LinkedList;
+import java.util.List;
+
+import pegs.Peg;
 
 /**
  * Created by Basil on 14/02/2016.
  */
 public class CodeImpl implements Code {
 
-    private int codeLength;
-    private Set validCharacters;
+    private List<Peg> pegs = new LinkedList();
 
-    public CodeImpl() {
-
-    }
-
-    public CodeImpl(int codeLength) {
-        this.codeLength = codeLength;
-    }
 
 	@Override
 	public void addPeg(Peg peg) {
-		// TODO Auto-generated method stub
+		pegs.add(peg);
 		
 	}
-
+	
+	@Override
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		int counter = 1;
+		
+		for (Peg p : pegs) {
+			
+			sb.append("Peg: " + counter + " = " + p.getCode() + "\n");
+			counter++;
+			
+		}
+		
+		return sb.toString();
+	}
 
 
 }

@@ -1,4 +1,4 @@
-package game;
+package pegs;
 
 /**
  * Created by Basil on 14/02/2016.

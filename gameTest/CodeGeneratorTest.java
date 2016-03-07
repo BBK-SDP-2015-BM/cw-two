@@ -19,16 +19,10 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import pegs.Peg;
 
+public class CodeGeneratorTest {
 
-public class PegListTest {
-	
-	
-	
-	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
-		
 	}
 
 	@After
@@ -36,25 +30,39 @@ public class PegListTest {
 	}
 
 	@Test
-	public void testPegLoad() {
+	public void testCodes(){
+		
+		String[] expectedPegs = {"B", "Y"};
 		
 		ApplicationContext context = 
 	             new ClassPathXmlApplicationContext("file:/Users/caleb/Desktop/sdp/cw-two/src/game/Beans.xml");
 
 	    GameBeans pegList = (GameBeans) context.getBean("GameBeans");
 	    
-	    List<String> pegs = pegList.getPegList();
-	    for(String peg: pegs){
-	    	System.out.println(peg.toString());
+	    
+	    List<String> pegNames = pegList.getPegList();
+	    
+	    List<Peg> pegs = new ArrayList();
+	    
+	    for(String peg: pegNames){
+	    	//System.out.println(peg.toString());
+	    	try {
+				pegs.add((Peg) Class.forName("pegs."+peg+"Peg").newInstance());
+			} catch (InstantiationException | IllegalAccessException
+					| ClassNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	    }
+	    
+
+		CodeGenerator cg = new CodeGenerator(5, pegs);
+	    Code theCode = cg.getCode();
+	    
+	    System.out.println(theCode.toString());
+	    
+	    // TODO: iterate through
 		
 	}
-	
-	@Test
-	public void test(){
-		assertEquals(0,0);
-	}
-	
-	
 
 }
