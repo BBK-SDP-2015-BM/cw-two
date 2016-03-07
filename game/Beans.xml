@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+   <!-- Definition for javaCollection -->
+   <bean id="GameBeans" class="game.GameBeans">
+
+      <!-- results in a setAddressList(java.util.List) call -->
+      <property name="pegList">
+         <list>
+            <value>Blue</value>
+            <value>Green</value>
+            <value>Orange</value>
+            <value>Purple</value>
+            <value>Red</value>
+            <value>Yellow</value>
+         </list>
+      </property>
+   </bean>
+</beans>
