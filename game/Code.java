@@ -1,5 +1,7 @@
 package game;
 
+import pegs.Peg;
+
 /**
  * Created by Basil & Caleb on 14/02/2016.
  *
@@ -10,6 +12,5 @@ public interface Code {
 
     void addPeg(Peg peg);
 
-    boolean equals(String codeString);
 
 }
