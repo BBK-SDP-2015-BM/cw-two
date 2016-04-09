@@ -31,7 +31,7 @@ public class GuessHistoryImpl implements GuessHistory {
 			feedbackVerbose.append("Black ");
 		}
 		
-		for(int i = 0; i < blackCount; i++){
+		for(int i = 0; i < whiteCount; i++){
 			feedbackVerbose.append("White ");
 		}
 		
