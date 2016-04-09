@@ -12,14 +12,13 @@ import java.util.*;
 public class Mastermind extends GameAbstractImpl {
 
 	private Scanner sc;
-	private int numGuesses = 12;
-	private int guesses = 0;
+	private int numGuesses;
+	private int guesses;
 	private int codeLength;
-	private boolean youWin = false;
-	private Code theCode = null;
-	private List<Peg> pegs = null;
-	private Map<Character, String> validPegCodes = null;
-	private GuessHistory prevGuesses = new GuessHistoryImpl(numGuesses);
+	private Code theCode;
+	private List<Peg> pegs;
+	private Map<Character, String> validPegCodes;
+	private GuessHistory prevGuesses;
 
 	public Mastermind(Boolean easy) {
 		super(easy);
@@ -28,11 +27,14 @@ public class Mastermind extends GameAbstractImpl {
 	             new ClassPathXmlApplicationContext("file:/Users/caleb/Desktop/sdp/cw-two/src/game/Beans.xml");
 
 	    GameBeans pegList = (GameBeans) context.getBean("GameBeans");
-
+	    prevGuesses = new GuessHistoryImpl(numGuesses);
 	    List<String> pegNames = pegList.getPegList();
-	    pegs = new ArrayList();
-	    validPegCodes = new HashMap();
-	    codeLength = 5;
+	    pegs = new ArrayList<>();
+	    validPegCodes = new HashMap<>();
+	    
+	    codeLength = 4;
+	    guesses = 0;
+	    numGuesses = 12;
 
 	    for(String peg: pegNames){
 
@@ -57,27 +59,35 @@ public class Mastermind extends GameAbstractImpl {
 
 		showIntro();
 
-		
-		generateCode();
-
-		while (guesses <= numGuesses && !youWin){
-			String guess = getUserGuess();
+		while (true){
 			
-			Code theFeedback = getFeedback(guess);
+			generateCode();
 			
-			//printFeedback(theFeedback);
-			
-			prevGuesses.addGuess(guess, theFeedback);
-			
-			prevGuesses.printGuesses();
-			
-            if(theCode.toString().equals(guess)){
-				System.out.println("You solved the puzzle! Good job.");
-				youWin = true;
+			while (true){
+				String guess = getUserGuess();
+				prevGuesses.addGuess(guess, getFeedback(guess));		
+				prevGuesses.printGuesses();
+				
+				
+	            if(theCode.toString().equals(guess)){
+					System.out.println("You solved the puzzle! Good job.");
+					break;
+				} else if(++guesses == numGuesses){
+					System.out.println("You did not solve the puzzle. Too bad.");
+					break;
+				}
 			}
-
-            guesses++;
+			
+			System.out.println("Enter Y for another game or anything else to quit: ");
+			String response = sc.nextLine();
+			
+			if(!response.equals("Y"))
+				break;
+			else
+				prevGuesses.clearGuesses();
 		}
+		
+		System.out.println("Exiting.");
 
 	}
 
@@ -140,12 +150,13 @@ public class Mastermind extends GameAbstractImpl {
 			char thisChar = secret.charAt(i);
 			
 			if(guessMap.containsKey(thisChar)){
-				if( thisChar == guess.charAt(i)){	
+				
+				if(thisChar == guess.charAt(i)){	
 					feedback.addPeg(new BlackPeg());
-				}
-				else if(guessMap.get(thisChar) > 0){	
+				} else if(guessMap.get(thisChar) > 0){	
 					feedback.addPeg(new WhitePeg());
 				}
+				
 				guessMap.put(thisChar, guessMap.get(thisChar) - 1);
 			}
 				
