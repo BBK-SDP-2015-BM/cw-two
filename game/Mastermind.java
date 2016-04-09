@@ -2,6 +2,7 @@ package game;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
 import pegs.BlackPeg;
 import pegs.Peg;
 import pegs.WhitePeg;
@@ -9,7 +10,7 @@ import pegs.WhitePeg;
 import java.util.*;
 
 public class Mastermind extends GameAbstractImpl {
-	
+
 	private Scanner sc;
 	private int numGuesses = 12;
 	private int guesses = 0;
@@ -21,17 +22,17 @@ public class Mastermind extends GameAbstractImpl {
 
 	public Mastermind(Boolean easy) {
 		super(easy);
-		
-		ApplicationContext context = 
+
+		ApplicationContext context =
 	             new ClassPathXmlApplicationContext("file:/Users/caleb/Desktop/sdp/cw-two/src/game/Beans.xml");
 
 	    GameBeans pegList = (GameBeans) context.getBean("GameBeans");
-	    
+
 	    List<String> pegNames = pegList.getPegList();
 	    pegs = new ArrayList();
 	    validPegCodes = new HashMap();
 	    codeLength = 5;
-	    
+
 	    for(String peg: pegNames){
 
 	    	try {
@@ -46,34 +47,31 @@ public class Mastermind extends GameAbstractImpl {
 	    }
 
 		sc = new Scanner(System.in);
-	    
+
 	}
-	
+
 
 	@Override
 	public void runGames() {
-		
+
 		showIntro();
+
 		generateCode();
-		
+
 		while (guesses <= numGuesses && !youWin){
-			
 			String guess = getUserGuess();
 
             if(theCode.toString().equals(guess)){
 				System.out.println("YOU WIN");
 				youWin = true;
 			} else {
-
 				Code theFeedback = getFeedback(guess);
 				printFeedback(theFeedback);
-
             }
-            
+
             guesses++;
-			
 		}
-		
+
 	}
 
 	private void generateCode() {
@@ -82,8 +80,26 @@ public class Mastermind extends GameAbstractImpl {
 	}
 
 	private void showIntro() {
-		System.out.println("Intro.");
-		
+		StringBuilder intro = new StringBuilder();
+
+		intro.append("Welcome to Mastermind.\n\n");
+
+		intro.append("This is a text version of the classic board game Mastermind.\n");
+		intro.append("The computer will think of a secret code.\n");
+		intro.append("The code consists of 4 colored pegs.\n");
+		intro.append("The pegs may be one of six colors: blue, green, orange, purple, red, or yellow.\n");
+		intro.append("A color may appear more than once in the code.\n\n");
+
+		intro.append("You try to guess what colored pegs are in the code and what order they are in\n");
+		intro.append("After making a guess the result will be displayed.\n");
+		intro.append("A result consists of a black peg for each peg you have exactly correct (color and position) in your guess.\n");
+		intro.append("For each peg in the guess that is the correct color, but is out of position, you get a white peg.\n\n");
+		intro.append("Only the first letter of the color is displayed. B for Blue, R for Red, and so forth.\n");
+		intro.append("When entering guesses you only need to enter the first character of the color as a capital letter.\n\n");
+
+		intro.append("You have 12 to guess the answer or you lose the game.\n");
+
+		System.out.print(intro.toString());
 	}
 
 	private void printFeedback(Code theFeedback) {
@@ -105,17 +121,13 @@ public class Mastermind extends GameAbstractImpl {
 		for (char c : guess.toCharArray()) {
 
 			if (colours.contains(c)) {
-
 				Peg feedback;
 
-				// at least white peg
+				// peg exists, ie at least white peg
 				if (c == s.charAt(index)) {
-
-					// black peg
+					// code in place, ie black peg
 					feedback = new BlackPeg();
-
 				} else {
-
 					feedback = new WhitePeg();
 				}
 
@@ -128,10 +140,6 @@ public class Mastermind extends GameAbstractImpl {
 		return ret;
 	}
 
-	private void printInstructions() {
-        String inst = "Welcome";
-        System.out.println(inst);
-    }
 
     private String getUserGuess(){
 
@@ -155,17 +163,17 @@ public class Mastermind extends GameAbstractImpl {
     }
 
     private boolean isValid(String guess){
-    	
+
         if(guess.length() != codeLength)
             return false;
 
         for(int i = 0; i < guess.length(); i++) {
-        	
+
         	if (!validPegCodes.keySet().contains(guess.charAt(i)))
         		return false;
-        	
+
         }
-        
+
         return true;
     }
 

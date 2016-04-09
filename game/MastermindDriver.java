@@ -16,7 +16,7 @@ public class MastermindDriver {
     	String secretParam = null;
  
     	if(args.length > 0){
-    	   secretParam = args[0];	
+    	    secretParam = args[0];	
     	} else {
     		secretParam = "True"; //comment or uncomment as needed. Comment out to hide secret code
     	}
