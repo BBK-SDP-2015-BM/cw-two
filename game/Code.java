@@ -12,7 +12,10 @@ import java.util.Set;
  */
 public interface Code {
 
-    void addPeg(Peg peg);
-    Set<Peg> getUnique();
+    public void addPeg(Peg peg);
+    
+    public Set<Peg> getUnique();
+    
+    public String toCodeString();
 
 }
