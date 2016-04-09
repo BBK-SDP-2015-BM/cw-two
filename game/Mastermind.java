@@ -19,6 +19,7 @@ public class Mastermind extends GameAbstractImpl {
 	private Code theCode = null;
 	private List<Peg> pegs = null;
 	private Map<Character, String> validPegCodes = null;
+	private GuessHistory prevGuesses = new GuessHistoryImpl(numGuesses);
 
 	public Mastermind(Boolean easy) {
 		super(easy);
@@ -56,18 +57,24 @@ public class Mastermind extends GameAbstractImpl {
 
 		showIntro();
 
+		
 		generateCode();
 
 		while (guesses <= numGuesses && !youWin){
 			String guess = getUserGuess();
-
+			
+			Code theFeedback = getFeedback(guess);
+			
+			//printFeedback(theFeedback);
+			
+			prevGuesses.addGuess(guess, theFeedback);
+			
+			prevGuesses.printGuesses();
+			
             if(theCode.toString().equals(guess)){
-				System.out.println("YOU WIN");
+				System.out.println("You solved the puzzle! Good job.");
 				youWin = true;
-			} else {
-				Code theFeedback = getFeedback(guess);
-				printFeedback(theFeedback);
-            }
+			}
 
             guesses++;
 		}
