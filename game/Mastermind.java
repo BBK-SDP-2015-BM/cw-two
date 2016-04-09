@@ -19,13 +19,12 @@ public class Mastermind extends GameAbstractImpl {
 	private List<Peg> pegs;
 	private Map<Character, String> validPegCodes;
 	private GuessHistory prevGuesses;
+	private ApplicationContext context;
 
 	public Mastermind(Boolean easy) {
 		super(easy);
 
-		ApplicationContext context =
-	             new ClassPathXmlApplicationContext("file:/Users/caleb/Desktop/sdp/cw-two/src/game/Beans.xml");
-
+		context = new ClassPathXmlApplicationContext("file:/Users/caleb/Desktop/sdp/cw-two/src/game/Beans.xml");
 	    GameBeans pegList = (GameBeans) context.getBean("GameBeans");
 	    prevGuesses = new GuessHistoryImpl(numGuesses);
 	    List<String> pegNames = pegList.getPegList();
@@ -88,6 +87,7 @@ public class Mastermind extends GameAbstractImpl {
 		}
 		
 		System.out.println("Exiting.");
+		sc.close();
 
 	}
 
@@ -117,10 +117,6 @@ public class Mastermind extends GameAbstractImpl {
 		intro.append("You have 12 to guess the answer or you lose the game.\n");
 
 		System.out.print(intro.toString());
-	}
-
-	private void printFeedback(Code theFeedback) {
-		System.out.println("Your Feedback: " + theFeedback.toString());
 	}
 
 	

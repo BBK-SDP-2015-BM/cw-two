@@ -14,12 +14,28 @@ public class GuessHistoryImpl implements GuessHistory {
 	
 	@Override
 	public void addGuess(String guess, Code theFeedback) {
-		guesses.add(guess + ": " + theFeedback.toString());
+		String feedbackStr = theFeedback.toString();
+		
+		StringBuilder feedbackVerbose = new StringBuilder();
+		
+		for (int i = 0; i < feedbackStr.length(); i++){
+			if(feedbackStr.charAt(i) == 'B')
+				feedbackVerbose.append("Black ");
+			else if(feedbackStr.charAt(i) == 'W')
+				feedbackVerbose.append("White ");
+		}
+		
+		if (feedbackVerbose.toString().isEmpty())
+			feedbackVerbose.append("No pegs");
+		
+		guesses.add(guess + ": " + feedbackVerbose);
 	}
 
 	@Override
 	public void printGuesses() {
 		int guessCounter = 0;
+		
+		System.out.println(".... Secret Code");
 		
 		for (int i = 0; i < guesses.size(); i++){
 			System.out.println(guesses.get(i));
