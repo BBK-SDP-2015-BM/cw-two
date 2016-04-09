@@ -112,42 +112,48 @@ public class Mastermind extends GameAbstractImpl {
 	private void printFeedback(Code theFeedback) {
 		System.out.println("Your Feedback: " + theFeedback.toString());
 	}
-
-	private Code getFeedback(String guess) {
-
-		Set<Character> colours = new HashSet<>();
-		int index = 0;
-		String s = theCode.toString();
-
-		Code ret = new CodeImpl();
-
-		for (char c : s.toCharArray()) {
-			colours.add(c);
-		}
-
-		for (char c : guess.toCharArray()) {
-
-			if (colours.contains(c)) {
-				Peg feedback;
-
-				// peg exists, ie at least white peg
-				if (c == s.charAt(index)) {
-					// code in place, ie black peg
-					feedback = new BlackPeg();
-				} else {
-					feedback = new WhitePeg();
-				}
-
-				ret.addPeg(feedback);
+	
+	private Code getFeedback(String guess){
+		
+		Code feedback = new CodeImpl();
+		String secret = theCode.toString();
+		Map<Character, Integer> guessMap = new HashMap();
+		
+		int numWhite = 0;
+		
+		//map each peg and number of occurances in guess
+		for (Character ch : guess.toCharArray()) {
+			
+			if (guessMap.containsKey(ch)){
+				guessMap.put(ch, guessMap.get(ch) + 1);
+			} else {
+				guessMap.put(ch, new Integer(1));				
 			}
 
-			index++;
 		}
-
-		return ret;
+		
+		//iterate through secret code, if peg is in right black, add black
+		// if peg is wrong place but in map, add white
+		// decrement map value in either case
+		for (int i = 0; i < secret.length(); i++){
+			
+			char thisChar = secret.charAt(i);
+			
+			if(guessMap.containsKey(thisChar)){
+				if( thisChar == guess.charAt(i)){	
+					feedback.addPeg(new BlackPeg());
+				}
+				else if(guessMap.get(thisChar) > 0){	
+					feedback.addPeg(new WhitePeg());
+				}
+				guessMap.put(thisChar, guessMap.get(thisChar) - 1);
+			}
+				
+		}
+		
+		return feedback;
 	}
-
-
+	
     private String getUserGuess(){
 
 		if (showCode) {
