@@ -1,16 +1,12 @@
 package game;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-
+import pegs.BlackPeg;
 import pegs.Peg;
+import pegs.WhitePeg;
+
+import java.util.*;
 
 public class Mastermind extends GameAbstractImpl {
 	
@@ -18,6 +14,7 @@ public class Mastermind extends GameAbstractImpl {
 	private int numGuesses = 12;
 	private int guesses = 0;
 	private int codeLength;
+	private boolean youWin = false;
 	private Code theCode = null;
 	private List<Peg> pegs = null;
 	private Map<Character, String> validPegCodes = null;
@@ -26,7 +23,7 @@ public class Mastermind extends GameAbstractImpl {
 		super(easy);
 		
 		ApplicationContext context = 
-	             new ClassPathXmlApplicationContext("file:/Users/caleb/Desktop/sdp/cw-two/src/game/Beans.xml");
+	             new ClassPathXmlApplicationContext("file:C:/Users/Basil/IdeaProjects/cw-two/game/Beans.xml");
 
 	    GameBeans pegList = (GameBeans) context.getBean("GameBeans");
 	    
@@ -46,6 +43,8 @@ public class Mastermind extends GameAbstractImpl {
 				e.printStackTrace();
 			}
 	    }
+
+		sc = new Scanner(System.in);
 	    
 	}
 	
@@ -53,26 +52,30 @@ public class Mastermind extends GameAbstractImpl {
 	@Override
 	public void runGames() {
 		
-		openResources();
+		//openResources();
 		
 		showIntro();
 		generateCode();
 		
-		while (guesses <= numGuesses){
+		while (guesses <= numGuesses && !youWin){
 			
 			String guess = getUserGuess();
 
-//            if(code.equals(guess)){
-//                //you win
-//            } else {
-//                getFeedback(guess);
-//            }
+            if(theCode.toString().equals(guess)){
+				System.out.println("YOU WIN");
+				youWin = true;
+			} else {
+
+				Code theFeedback = getFeedback(guess);
+				printFeedback(theFeedback);
+
+            }
             
-            numGuesses++;
+            guesses++;
 			
 		}
 		
-		closeResources(sc);
+		//closeResources(sc);
 		
 	}
 
@@ -85,14 +88,67 @@ public class Mastermind extends GameAbstractImpl {
 		System.out.println("Intro.");
 		
 	}
-	
+
+	private void printFeedback(Code theFeedback) {
+		System.out.println("Your Feedback: " + theFeedback.toString());
+	}
+
+	private Code getFeedback(String guess) {
+
+		Set<Character> colours = new HashSet<>();
+		int index = 0;
+		String s = theCode.toString();
+
+		Code ret = new CodeImpl();
+
+		for (char c : s.toCharArray()) {
+			colours.add(c);
+		}
+
+		for (char c : guess.toCharArray()) {
+
+			if (colours.contains(c)) {
+
+				Peg feedback;
+
+				// at least white peg
+
+				if (c == s.charAt(index)) {
+
+					// black peg
+
+					feedback = new BlackPeg();
+
+				} else {
+
+					feedback = new WhitePeg();
+
+				}
+
+				ret.addPeg(feedback);
+
+			}
+
+			index++;
+
+		}
+
+		return ret;
+
+	}
+
 	private void printInstructions() {
         String inst = "Welcome";
         System.out.println(inst);
     }
 
     private String getUserGuess(){
-        System.out.print("You have "+ numGuesses +" guesses left.\n" +
+
+		if (showCode) {
+			System.out.println("Code: " + theCode.toString());
+		}
+
+        System.out.print("You have "+ (numGuesses - guesses) +" guesses left.\n" +
                 "\n" +
                 "What is your next guess?\n" +
                 "Type in the characters for your guess and press enter.\n" +

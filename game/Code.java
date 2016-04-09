@@ -2,6 +2,8 @@ package game;
 
 import pegs.Peg;
 
+import java.util.Set;
+
 /**
  * Created by Basil & Caleb on 14/02/2016.
  *
@@ -11,6 +13,6 @@ import pegs.Peg;
 public interface Code {
 
     void addPeg(Peg peg);
-
+    Set<Peg> getUnique();
 
 }
