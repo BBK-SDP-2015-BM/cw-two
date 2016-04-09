@@ -1,6 +1,8 @@
 package game;
 
+import pegs.BlackPeg;
 import pegs.Peg;
+import pegs.WhitePeg;
 
 import java.util.*;
 
@@ -62,6 +64,49 @@ public class CodeImpl implements Code {
 		}
 
 		return sb.toString();
+	}
+	
+	@Override
+	public Code getFeedback(String guess){
+		
+		Code feedback = new CodeImpl();
+		String secret = this.toString();
+		Map<Character, Integer> guessMap = new HashMap();
+		
+		int numWhite = 0;
+		
+		//map each peg and number of occurances in guess
+		for (Character ch : guess.toCharArray()) {
+			
+			if (guessMap.containsKey(ch)){
+				guessMap.put(ch, guessMap.get(ch) + 1);
+			} else {
+				guessMap.put(ch, new Integer(1));				
+			}
+
+		}
+		
+		//iterate through secret code, if peg is in right black, add black
+		// if peg is wrong place but in map, add white
+		// decrement map value in either case
+		for (int i = 0; i < secret.length(); i++){
+			
+			char thisChar = secret.charAt(i);
+			
+			if(guessMap.containsKey(thisChar)){
+				
+				if(thisChar == guess.charAt(i)){	
+					feedback.addPeg(new BlackPeg());
+				} else if(guessMap.get(thisChar) > 0){	
+					feedback.addPeg(new WhitePeg());
+				}
+				
+				guessMap.put(thisChar, guessMap.get(thisChar) - 1);
+			}
+				
+		}
+		
+		return feedback;
 	}
 
 

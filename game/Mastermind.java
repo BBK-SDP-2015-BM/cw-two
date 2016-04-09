@@ -65,7 +65,7 @@ public class Mastermind extends GameAbstractImpl {
 			
 			while (true){
 				String guess = getUserGuess();
-				prevGuesses.addGuess(guess, getFeedback(guess));		
+				prevGuesses.addGuess(guess, theCode.getFeedback(guess));		
 				prevGuesses.printGuesses();
 				
 				
@@ -122,48 +122,7 @@ public class Mastermind extends GameAbstractImpl {
 	private void printFeedback(Code theFeedback) {
 		System.out.println("Your Feedback: " + theFeedback.toString());
 	}
-	
-	private Code getFeedback(String guess){
-		
-		Code feedback = new CodeImpl();
-		String secret = theCode.toString();
-		Map<Character, Integer> guessMap = new HashMap();
-		
-		int numWhite = 0;
-		
-		//map each peg and number of occurances in guess
-		for (Character ch : guess.toCharArray()) {
-			
-			if (guessMap.containsKey(ch)){
-				guessMap.put(ch, guessMap.get(ch) + 1);
-			} else {
-				guessMap.put(ch, new Integer(1));				
-			}
 
-		}
-		
-		//iterate through secret code, if peg is in right black, add black
-		// if peg is wrong place but in map, add white
-		// decrement map value in either case
-		for (int i = 0; i < secret.length(); i++){
-			
-			char thisChar = secret.charAt(i);
-			
-			if(guessMap.containsKey(thisChar)){
-				
-				if(thisChar == guess.charAt(i)){	
-					feedback.addPeg(new BlackPeg());
-				} else if(guessMap.get(thisChar) > 0){	
-					feedback.addPeg(new WhitePeg());
-				}
-				
-				guessMap.put(thisChar, guessMap.get(thisChar) - 1);
-			}
-				
-		}
-		
-		return feedback;
-	}
 	
     private String getUserGuess(){
 
