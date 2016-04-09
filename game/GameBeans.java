@@ -13,8 +13,4 @@ public class GameBeans {
 		this.pegList = pegList;
 	}
 	
-	
-	
-	
-
 }

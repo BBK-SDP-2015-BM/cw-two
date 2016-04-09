@@ -8,7 +8,7 @@
    <!-- Definition for javaCollection -->
    <bean id="GameBeans" class="game.GameBeans">
 
-      <!-- results in a setAddressList(java.util.List) call -->
+      <!-- results in a peg being added to the game's peg list -->
       <property name="pegList">
          <list>
             <value>Blue</value>

@@ -23,7 +23,7 @@ public class Mastermind extends GameAbstractImpl {
 		super(easy);
 		
 		ApplicationContext context = 
-	             new ClassPathXmlApplicationContext("file:C:/Users/Basil/IdeaProjects/cw-two/game/Beans.xml");
+	             new ClassPathXmlApplicationContext("file:/Users/caleb/Desktop/sdp/cw-two/src/game/Beans.xml");
 
 	    GameBeans pegList = (GameBeans) context.getBean("GameBeans");
 	    
@@ -39,7 +39,8 @@ public class Mastermind extends GameAbstractImpl {
 				validPegCodes.put(peg.charAt(0), peg);
 			} catch (InstantiationException | IllegalAccessException
 					| ClassNotFoundException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Peg colour " + peg + " not found. "
+						+ "Ensure you have created a corresponding class with this colour.");
 				e.printStackTrace();
 			}
 	    }
@@ -51,8 +52,6 @@ public class Mastermind extends GameAbstractImpl {
 
 	@Override
 	public void runGames() {
-		
-		//openResources();
 		
 		showIntro();
 		generateCode();
@@ -74,8 +73,6 @@ public class Mastermind extends GameAbstractImpl {
             guesses++;
 			
 		}
-		
-		//closeResources(sc);
 		
 	}
 
@@ -112,29 +109,23 @@ public class Mastermind extends GameAbstractImpl {
 				Peg feedback;
 
 				// at least white peg
-
 				if (c == s.charAt(index)) {
 
 					// black peg
-
 					feedback = new BlackPeg();
 
 				} else {
 
 					feedback = new WhitePeg();
-
 				}
 
 				ret.addPeg(feedback);
-
 			}
 
 			index++;
-
 		}
 
 		return ret;
-
 	}
 
 	private void printInstructions() {
@@ -157,19 +148,10 @@ public class Mastermind extends GameAbstractImpl {
 
         while(!isValid(guess)){
             System.out.println("What is your next guess?");
-
             guess = sc.nextLine();
         }
 
         return guess;
-    }
-
-    private void openResources(){
-        sc = new Scanner(System.in);
-    }
-
-    private void closeResources(Scanner sc){
-        sc.close();
     }
 
     private boolean isValid(String guess){
@@ -185,7 +167,6 @@ public class Mastermind extends GameAbstractImpl {
         }
         
         return true;
-
     }
 
 }
