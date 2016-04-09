@@ -23,6 +23,10 @@ public class Mastermind extends GameAbstractImpl {
 
 	public Mastermind(Boolean easy) {
 		super(easy);
+		
+		codeLength = 4;
+	    guesses = 0;
+	    numGuesses = 12;
 
 		context = new ClassPathXmlApplicationContext("file:/Users/caleb/Desktop/sdp/cw-two/src/game/Beans.xml");
 	    GameBeans pegList = (GameBeans) context.getBean("GameBeans");
@@ -30,10 +34,6 @@ public class Mastermind extends GameAbstractImpl {
 	    List<String> pegNames = pegList.getPegList();
 	    pegs = new ArrayList<>();
 	    validPegCodes = new HashMap<>();
-	    
-	    codeLength = 4;
-	    guesses = 0;
-	    numGuesses = 12;
 
 	    for(String peg: pegNames){
 
