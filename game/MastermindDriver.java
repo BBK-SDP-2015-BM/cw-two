@@ -5,12 +5,26 @@ package game;
  */
 public class MastermindDriver {
 
-    // Example - change as you need to...
+	
+    /**
+     * Main method to start game. Uncomment or use command line to show code.
+     * By default, secret code is shown.
+     * 
+     */
     public static void main(String[] args) {
-        Game g = Factory.getInstance(Mastermind.class, true);
+    	
+    	String secretParam = null;
+ 
+    	if(args.length > 0){
+    	   secretParam = args[0];	
+    	} else {
+    		secretParam = "True"; //comment or uncomment as needed. Comment out to hide secret code
+    	}
+    	   	
+    	boolean showSecret = Boolean.parseBoolean(secretParam);
+	
+        Game g = Factory.getInstance(Mastermind.class, showSecret);
         g.runGames();
-
-        g = Factory.getInstance(Mastermind.class, false);
-        g.runGames();
+        
     }
 }

@@ -30,3 +30,5 @@ e.g.
        <value>Yellow</value>
     </list>
 </property>
+
+Secret code is shown by default. To hide, comment appropriate line from MastermindDriver.java or pass True as first command line argument.
