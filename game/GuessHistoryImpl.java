@@ -18,11 +18,21 @@ public class GuessHistoryImpl implements GuessHistory {
 		
 		StringBuilder feedbackVerbose = new StringBuilder();
 		
+		int blackCount = 0;
+		int whiteCount = 0;
 		for (int i = 0; i < feedbackStr.length(); i++){
 			if(feedbackStr.charAt(i) == 'B')
-				feedbackVerbose.append("Black ");
+				blackCount++;
 			else if(feedbackStr.charAt(i) == 'W')
-				feedbackVerbose.append("White ");
+				whiteCount++;
+		}
+		
+		for(int i = 0; i < blackCount; i++){
+			feedbackVerbose.append("Black ");
+		}
+		
+		for(int i = 0; i < blackCount; i++){
+			feedbackVerbose.append("White ");
 		}
 		
 		if (feedbackVerbose.toString().isEmpty())
