@@ -1,11 +1,13 @@
 Mastermind
 SDP Coursework 2
-by Caleb Clayton and Basil Mason
+Contributors:
+Caleb Clayton - GitHub account: claytoncaleb and BBK-PiJ-2014-51
+Basil Mason - GitHub account: BasilMason
 
 
 This our fully functional Mastermind implementation.
 
-Dependency Injection is supplied by the Spring Framework.
+Dependency Injection is supplied by the Spring Framework. The path of the beans.xml file must be specified in Mastermind.java
 
 To add a new peg, extend the peg class with a short implementation, specifying the colour.
 e.g.
